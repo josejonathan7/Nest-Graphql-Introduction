@@ -1,0 +1,29 @@
+version: '2.0'
+
+#manter a nossa api e o nosso database dentro de um mesmo service resolve problemas de um não conseguir enxerga o outro por estar em containers diferentes
+services:
+
+  api: 
+    container_name: nest_api
+    build: .
+    #primeiro é a porta que vai roda no nosso local host e o segundo é a porta que esta rodando no container
+    ports:
+      - "3000:3000"
+    #manter sincronizado o nosso diretorio atual com o endereço do container no docker
+    volumes:
+      - .:/home/api
+      #ao sincronizar o nosso diretório no container ele não manda a node_modules o que gera um erro então a gente sobrescreve a node_modules do container sobre o nosso diretorio(foi o que eu entendi)
+      - /home/api/node_modules
+
+  database:
+    container_name: nest_db
+    image: postgres:13
+      
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: 123456
+      POSTGRES_DB: nest_api
+
+
+    ports:
+      - "5433:5432"

@@ -12,7 +12,6 @@ WORKDIR /home/nest-api
 
 #copiar e instala esses arquivos antes de copiar o código evita que tenhamos que instalar todas as dependencias do projeto cada vez que fizermos alguma alteração
 COPY package.json .
-COPY yarn.lock .
 
 RUN npm install
 
